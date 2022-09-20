@@ -1,0 +1,50 @@
+.nav-container{
+    padding: 1% 1%;
+    height: 5%;
+    border: 2px solid black;
+}
+
+.train-home-outerdiv{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    min-height: 70vh;
+    margin: 2% 0%;
+    padding: 2%;
+    border: 1px solid black;
+}
+
+
+.train-home-jumbo{
+    display: flex;
+    background-color: #E9ECEF;
+    padding: 15px 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 30%;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    box-shadow: 10px 10px 8px #888888;
+}
+
+.train-home-functions{
+    background-color: #E9ECEF;
+    padding: 1%;
+    width: 65%;
+    box-shadow : 10px 10px 8px #888888;
+    border-radius: 5px;
+}
+
+.input-image{
+    margin: 5% 0%;
+    border: 1px solid black;
+    padding: 1%;
+}
+
+.remove-image{
+    margin-top: 3%;
+    background-color: red;
+    border-radius: 5px;
+    color: white;
+}

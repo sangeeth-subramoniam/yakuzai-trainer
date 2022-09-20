@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block body %}
+
+
+<div class="container train-home-outerdiv">
+
+
+    <div class="train-home-jumbo">
+        
+        {% if image_exist %}
+            <img src="{% static 'image/train_medicine.jpg' %}" alt="broken" width="100%" height="350px">
+            <form action="{% url 'train:remove_image' %}" method="post">
+                {% csrf_token %}
+
+                <input type="submit" value="REMOVE IMAGE" class="remove-image">
+            </form>
+        {% else %}
+        
+            <form action="{% url 'train:image_post' %}" method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+                <input type="file" class="input-image" name="input-image" id="input-image" class="form-control">
+                <input type="submit" value="submit" class="form-control">
+            
+            </form>
+
+        {% endif %}
+    </div>
+
+
+
+    <div class="train-home-functions">
+        
+        {% if image_exist %}
+            <form action="{% url 'build_weights:build_weights_home' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for cropped_file_name in cropped_file_names %}
+
+            
+            
+                <div class="container">
+
+                    <div class="row">
+
+                        <div class="col-sm-6">
+                            <p>{{forloop.counter}}</p>
+                            <div class="train-home-functions--cropped-image-div ">
+
+                                <img src="{% static '' %}{{cropped_file_name}}" alt="brkn" width="50%" height="50%">
+                                
+                            </div>
+                        </div>
+                
+                        <div class="col-sm-6">
+                            <div class="jumbotron">
+
+                                <select name="{{forloop.counter}}" id="{{forloop.counter}}" class="form-control">
+
+                                    {% for yakuzai_name in yakuzai_names %}
+                                        <option value="{{forloop.counter}}"> {{yakuzai_name}} </option>
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>
+
+                <hr>
+
+            {% endfor %}
+
+            <input type="button" value="SUBMIT" class="form-control" name="form-button" id="form-button">
+            <input type="submit" value="SUBMIT" style="display: none;" id="form-submit-button">
+
+            <div class="spinner-border" role="status" id="form-spinner" style="display: none; margin-left: 48%; margin-top:3%">
+                <span class="sr-only">Loading...</span>
+            </div>
+
+        </form>
+        
+        {%else%}
+            <p> UPLOAD IMAGE TO TRAIN !</p>
+        {% endif %}
+
+
+    </div>
+
+</div>
+
+<script>
+    $("#form-button").click( function (){
+
+        $('#form-spinner').css('display','block');
+        $("#form-submit-button").click();
+
+
+    });
+</script>
+{% endblock %}
