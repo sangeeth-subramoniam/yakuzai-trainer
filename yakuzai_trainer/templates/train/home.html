@@ -22,8 +22,13 @@
             <form action="{% url 'train:image_post' %}" method="post" enctype="multipart/form-data">
 
                 {% csrf_token %}
-                <input type="file" class="input-image" name="input-image" id="input-image" class="form-control">
-                <input type="submit" value="submit" class="form-control">
+                <input type="file" class="input-image" name="input-image" id="input-image" class="form-control" required>
+                <input type="button" value="Submit" class="form-control" id="empty-form-button">
+                <input type="submit" id="empty-form-submit-button" value="submit" class="form-control" style="display: none;">
+
+                <div class="spinner-border" role="status" id="empty-form-spinner" style="display: none; margin-left: 48%; margin-top:3%">
+                    <span class="sr-only">Loading...</span>
+                </div>
             
             </form>
 
@@ -35,7 +40,7 @@
     <div class="train-home-functions">
         
         {% if image_exist %}
-            <form action="{% url 'build_weights:build_weights_home' %}" method="post" enctype="multipart/form-data">
+            <form action="{% url 'build_weights:add_single_image' %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for cropped_file_name in cropped_file_names %}
 
@@ -49,7 +54,7 @@
                             <p>{{forloop.counter}}</p>
                             <div class="train-home-functions--cropped-image-div ">
 
-                                <img src="{% static '' %}{{cropped_file_name}}" alt="brkn" width="50%" height="50%">
+                                <img src="{% static '' %}{{cropped_file_name.0}}" alt="brkn" width="50%" height="50%">
                                 
                             </div>
                         </div>
@@ -57,13 +62,18 @@
                         <div class="col-sm-6">
                             <div class="jumbotron">
 
-                                <select name="{{forloop.counter}}" id="{{forloop.counter}}" class="form-control">
+                                <select name="yakuzai_name" id="{{forloop.counter}}" class="form-control">
 
                                     {% for yakuzai_name in yakuzai_names %}
                                         <option value="{{forloop.counter}}"> {{yakuzai_name}} </option>
                                     {% endfor %}
 
                                 </select>
+
+                                <input type="text" name="changed_yakuzai_name" value="{{cropped_file_name.0}}">
+
+                                <p>SIMILAR SUGGESTION FILENAME : {{cropped_file_name.1}}</p>
+
                             </div>
                         </div>
 
@@ -94,6 +104,17 @@
 </div>
 
 <script>
+    
+
+    $("#empty-form-button").click( function (){
+
+        $('#empty-form-spinner').css('display','block');
+        $("#empty-form-submit-button").click();
+
+
+    });
+
+
     $("#form-button").click( function (){
 
         $('#form-spinner').css('display','block');

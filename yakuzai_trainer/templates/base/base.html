@@ -19,6 +19,7 @@
 <body>
 <div class="nav-container">
     <h2 class="nav-title"><a href="/" class="nav-homepage"><span class="title-firstname">YAKUZAI TRAINER</span> </a></h2>
+    <a href="{% url 'build_weights:similar_images' %}"> nearest neighbour </a>
     <a href="{% url 'build_weights:build_weights_home_initial' %}" style="margin-left: 90%;"> <button class="btn btn-primary"> Initial train </button> </a>
 </div>          
 

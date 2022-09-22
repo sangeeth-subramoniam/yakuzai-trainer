@@ -7,6 +7,8 @@ from django.conf import settings
 
 import os
 
+from build_weights.views import similar_images_from_parameter
+
 # Create your views here.
 def train_home(request):
 
@@ -24,17 +26,36 @@ def train_home(request):
     directory = os.path.join(settings.STATIC_DIR, "cropped_images")
     cropped_file_count = 0
     cropped_file_names = []
-    for filename in os.listdir(directory):
+    for filename in sorted(os.listdir(directory)):
         f = os.path.join(directory, filename)
         # checking if it is a file
+
+        print('the sent  nearest neighbour parameter value is ' , f)
+
+        nearest_value = similar_images_from_parameter(f)
+
+        print('the returned nearest neighbour value is ' , nearest_value , ' and only filename is ' , filename)
+
         if os.path.isfile(f):
             cropped_file_count += 1
-            cropped_file_names.append('cropped_images/yakuzai' + str(cropped_file_count) + str('.jpg'))
+            file_index_name = filename
+            # cropped_filename = 'cropped_images/yakuzai' + str(cropped_file_count) + str('.jpg')
+            cropped_filename = 'cropped_images/'+str(filename)
+            cropped_file_similar_image = nearest_value
+
+            cropped_file_tuple = (cropped_filename , cropped_file_similar_image)
+
+            cropped_file_names.append(cropped_file_tuple)
+
+
+        print(' X ---------------------- ', filename ,' ITERATION OVER ------------------------ X')
+
     print('There are ', cropped_file_count,' files in cropped folder ... List is ' , cropped_file_names)
 
 
     yakuzai_names = ["None","loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"antimidipine 500mg""loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg"  ]
 
+    print('FINAL CROPPED TUPLE NAME LIST IS ', cropped_file_names)
 
     context = {
         'image_exist' : image_exist,
@@ -43,6 +64,10 @@ def train_home(request):
     }
 
     return render(request, 'train/home.html', context)
+
+
+
+    
 
 def image_post(request):
     print('entering image post with paramerters', request.POST)
