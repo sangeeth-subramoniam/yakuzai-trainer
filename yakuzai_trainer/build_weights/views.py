@@ -10,7 +10,11 @@ import numpy as np # pip install numpy
 from PIL import Image #pip install pillow
 from annoy import AnnoyIndex #pip install annoy
 
-yakuzai_names = ["None","loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"antimidipine 500mg""loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg"  ]
+from static.yakuzai_names import yakuzai_names
+
+from datetime import datetime
+
+import cv2
 
 
 # Create your views here.
@@ -123,6 +127,8 @@ def similar_images(request):
     for items2 in new_neighbors[0]:
         print('the file name is ',images_list[int(items2)])
 
+    return redirect('train:train_home')
+
 
 
 def findname(name_text):
@@ -207,6 +213,9 @@ def similar_images_from_parameter(filepath = None):
 
 
 def add_single_image(request):
+
+    now = datetime.now()
+
     import os
     print('entering add_single_image')
 
@@ -239,23 +248,37 @@ def add_single_image(request):
             source_image_folder = os.path.join(settings.STATIC_DIR,name_of_new_file)
             destination_image_folder = os.path.join(settings.STATIC_DIR, "train_images3")
 
-            shutil.copy(source_image_folder,destination_image_folder)
+            import base64
 
-            only_name_in_name_of_new_file = str(name_of_new_file.split('/')[1])
+            with open(source_image_folder, "rb") as image_file:
+                print('the image fikle is sorce is ' , image_file)
+                encoded_string = base64.b64encode(image_file.read())
+                print('the base 64 data of image is ' , encoded_string)
+                print('base 64 over' , type(encoded_string))
 
-            print('onlyfile name is ', only_name_in_name_of_new_file)
 
-            src_rename_file = os.path.join(settings.STATIC_DIR, "train_images3\\{}".format(only_name_in_name_of_new_file))
+            print('tseeee etttt ')
+
+            month = str(now.strftime("%B"))
+            day = str(now.strftime("%d"))
+            seconds = str(now.strftime("%S"))
+            microseconds = str(now.strftime("%f"))
+
+            print('the month + day + seconds +  microseconds are ', month , day,  seconds , microseconds)
+
+
+            destination_file_image_unique_name = str(str(selected_option_value) + "_YAKUZAI" + "_sangeeth_" + month + day + '_' + seconds + '_' + microseconds + '.jpg')
+
+            destination_file = os.path.join(destination_image_folder,destination_file_image_unique_name)
             
-            os.rename( src_rename_file , 'joker.jpg')
+            with open(destination_file, "wb") as fh:
+                fh.write(base64.decodebytes(encoded_string))
+
+            print('base64 file save succesful')
 
 
-            
             print('lets train the .ann file with the newly added cropped image file')
 
 
+            return redirect('build_weights:build_weights_home_initial')
 
-
-
-
-    return redirect('https://www.google.com')

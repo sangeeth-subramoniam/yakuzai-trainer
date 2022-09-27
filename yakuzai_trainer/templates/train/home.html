@@ -11,7 +11,7 @@
     <div class="train-home-jumbo">
         
         {% if image_exist %}
-            <img src="{% static 'image/train_medicine.jpg' %}" alt="broken" width="100%" height="350px">
+            <img src="{% static 'image/' %}train_medicine.jpg" alt="broken" width="100%" height="350px">
             <form action="{% url 'train:remove_image' %}" method="post">
                 {% csrf_token %}
 
@@ -70,9 +70,9 @@
 
                                 </select>
 
-                                <input type="text" name="changed_yakuzai_name" value="{{cropped_file_name.0}}">
+                                <input type="text" class="form-control" name="changed_yakuzai_name" value="{{cropped_file_name.0}}">
 
-                                <p>SIMILAR SUGGESTION FILENAME : {{cropped_file_name.1}}</p>
+                                <p style="width: 80%; overflow-x: scroll; margin-top: 5%;">似ている薬剤 : {{cropped_file_name.1}}</p>
 
                             </div>
                         </div>

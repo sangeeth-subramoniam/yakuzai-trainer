@@ -9,6 +9,9 @@ import os
 
 from build_weights.views import similar_images_from_parameter
 
+from static.yakuzai_names import yakuzai_names
+
+
 # Create your views here.
 def train_home(request):
 
@@ -53,7 +56,6 @@ def train_home(request):
     print('There are ', cropped_file_count,' files in cropped folder ... List is ' , cropped_file_names)
 
 
-    yakuzai_names = ["None","loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"antimidipine 500mg""loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg" ,"loxonin 10mg" , "loxonin 100mg" , "loxonin 500mg" , "karonaru 100mg" , "antimidipine 100mg"  ]
 
     print('FINAL CROPPED TUPLE NAME LIST IS ', cropped_file_names)
 
